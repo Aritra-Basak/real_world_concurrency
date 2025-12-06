@@ -58,28 +58,6 @@ spring-boot-starter-test
 
 All dependencies are defined in `pom.xml`.
 
----
-
-## 🗂 Project Structure
-
-```
-src
- ├── main
- │   └── java
- │       └── com.example.concurrentpoc
- │            ├── controller        → REST APIs
- │            ├── facade            → Resilience4j layer
- │            ├── service           → Business logic
- │            ├── entity            → JPA entities
- │            ├── repository        → Data access
- │            ├── config            → Cache & resilience config
- │            └── exception         → Custom & global exceptions
- │
- └── test
-     └── java
-         └── com.example.concurrentpoc
-              └── UserConcurrencyTest.java
-```
 
 ✅ All important classes include inline comments explaining their purpose.
 
