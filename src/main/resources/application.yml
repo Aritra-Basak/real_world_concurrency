@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: concurrencyPoc
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  cache:
+    type: caffeine
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,httpexchanges,loggers,env
+  endpoint:
+    health:
+      show-details: always
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userService:
+        sliding-window-size: 10
+        permitted-number-of-calls-in-half-open-state: 3
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+  ratelimiter:
+    instances:
+      userServiceGet:
+        limit-for-period: 20
+        limit-refresh-period: 1s
+        timeout-duration: 0
+      userServiceUpdate:
+        limit-for-period: 5
+        limit-refresh-period: 1s
+        timeout-duration: 0
+  bulkhead:
+    instances:
+      userServiceGet:
+        max-concurrent-calls: 50
+      userServiceUpdate:
+        max-concurrent-calls: 10
+  retry:
+    instances:
+      userServiceUpdate:
+        max-attempts: 3
+        wait-duration: 200ms
